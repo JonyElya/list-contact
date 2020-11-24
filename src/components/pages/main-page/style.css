@@ -1,0 +1,13 @@
+.contact-list {
+  margin: 0 auto;
+  padding: 10px 50px;
+}
+.action-link {
+  margin-right: 5px;
+}
+
+@media (max-width: 992px) {
+  .contact-list {
+    padding: 5px;
+  }
+}
