@@ -5,9 +5,16 @@
 .action-link {
   margin-right: 5px;
 }
+.input-search {
+  width: 30%;
+  margin-bottom: 10px;
+}
 
 @media (max-width: 992px) {
   .contact-list {
     padding: 5px;
+  }
+  .input-search {
+    width: 250px;
   }
 }

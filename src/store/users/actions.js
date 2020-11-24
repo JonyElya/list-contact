@@ -1,4 +1,4 @@
-import {NEW_DATA_USERS, GET_USERS, USERS_ERROR} from './types'
+import {NEW_DATA_USERS, GET_USERS, USERS_ERROR, INPUT_SEARCH} from './types'
 import axios from 'axios'
 
 export const getUsers = () => async dispatch => {
@@ -27,14 +27,38 @@ export const getUsers = () => async dispatch => {
 }
 
 export const editUser = data => async dispatch => {
-    try{
+    try {
         const res = await data
         dispatch( {
             type: NEW_DATA_USERS,
             payload: res
         })
     }
-    catch(e){
+    catch(e) {
+        dispatch( {
+            type: USERS_ERROR,
+            payload: console.log(e),
+        })
+    }
+}
+
+export const searchUser = input => async dispatch => {
+    try {
+        const res = await input
+        if(input.length === 0){
+            const data = JSON.parse(localStorage.getItem("users"))
+            dispatch({
+                type: GET_USERS,
+                payload: data
+            })
+        } else {
+            dispatch({
+                type: INPUT_SEARCH,
+                payload: res
+            })
+        }
+    }
+    catch(e) {
         dispatch( {
             type: USERS_ERROR,
             payload: console.log(e),

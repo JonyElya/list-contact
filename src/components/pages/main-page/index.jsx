@@ -1,10 +1,11 @@
 import React, {useCallback, useEffect, useState} from "react"
-import {Layout, Table, InputNumber, Input, Form, Popconfirm} from "antd";
+import {Layout, Table, InputNumber, Input, Form, Popconfirm, Button} from "antd";
 import {useDispatch, useSelector} from "react-redux";
-import {editUser, getUsers} from "../../../store/users/actions";
+import {editUser, getUsers, searchUser} from "../../../store/users/actions";
 import "./style.css"
 
 const { Content } = Layout
+const { Search } = Input
 
 const EditableCell = ({
                           editing,
@@ -46,6 +47,7 @@ const MainPage =()=> {
     const {users} =  useSelector((state)=> state.users)
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
+    const [input, setInput] = useState('')
 
     const isEditing = (record) => record.id === editingKey;
 
@@ -68,6 +70,12 @@ const MainPage =()=> {
         setEditingKey('');
     },[])
 
+    const changeText = (e) => setInput(e.target.value);
+
+    const find = useCallback(() =>{
+        dispatch(searchUser(input.trim()))
+    }, [dispatch, input])
+
     const save = async (key) => {
         try {
             const row = await form.validateFields();
@@ -76,7 +84,7 @@ const MainPage =()=> {
 
             if (index > -1) {
                 const item = newData[index];
-                newData.splice(index, 1, { ...item, ...row });
+                newData.splice(index, 1, {...item, ...row});
                 dispatch(editUser(newData))
                 localStorage.setItem("users", JSON.stringify(newData))
                 setEditingKey('');
@@ -86,11 +94,10 @@ const MainPage =()=> {
                 localStorage.setItem("users", JSON.stringify(newData))
                 setEditingKey('');
             }
-        }  catch (errInfo) {
-        console.log('Validate Failed:', errInfo);
+        } catch (errInfo) {
+            console.log('Validate Failed:', errInfo);
+        }
     }
-    }
-
     const columns = [
         {
             title: "ID",
@@ -142,20 +149,20 @@ const MainPage =()=> {
                 const editable = isEditing(record);
                 return editable ? (
                     <span>
-            <a
+            <Button
                 onClick={() => save(record.id)}
                 className="action-link"
             >
               Save
-            </a>
+            </Button>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+              <Button>Cancel</Button>
             </Popconfirm>
           </span>
                 ) : (
-                    <a disabled={editingKey !== ''} onClick={() => edit(record)}>
+                    <Button disabled={editingKey !== ''} onClick={() => edit(record)}>
                         Edit
-                    </a>
+                    </Button>
                 );
             },
         },
@@ -180,6 +187,14 @@ const MainPage =()=> {
     return (
         <Content>
             <div className="site-layout-content contact-list">
+                <Search
+                    placeholder="Enter name"
+                    size="large"
+                    onChange={changeText}
+                    value={input}
+                    onSearch={find}
+                    className="input-search"
+                />
                 <Form form={form} component={false}>
                     <Table
                         components={{

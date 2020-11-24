@@ -1,4 +1,4 @@
-import {NEW_DATA_USERS, GET_USERS} from './types'
+import {NEW_DATA_USERS, GET_USERS, INPUT_SEARCH} from './types'
 
 const initialState = {
     users: []
@@ -15,6 +15,11 @@ export function usersReducer(state = initialState, action){
             return {
                 ...state,
                 users: action.payload,
+            }
+        case INPUT_SEARCH:
+            return {
+                ...state,
+                users: state.users.filter(c => c.name.toLowerCase().includes(action.payload))
             }
         default: return state
     }
