@@ -5,8 +5,13 @@ const {Header} = Layout
 
 const HeaderApp =()=>{
     return (
-        <Header className="Header">
-          Contacts
+        <Header className="header">
+            <div className="header-logo">
+                <img src="https://www.sibers.com/images/logo.png" alt="logo"/>
+            </div>
+            <div className="header-title">
+                Contacts
+            </div>
         </Header>
     )
 }

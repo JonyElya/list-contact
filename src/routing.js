@@ -3,7 +3,7 @@ import {Layout} from "antd";
 import HeaderApp from "./components/layots/header";
 import MainPage from "./components/pages/main-page";
 
-const Routing =()=> {
+const Routing = () => {
   return (
     <div className="App">
       <Layout className="layout">
