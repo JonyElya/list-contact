@@ -45,18 +45,10 @@ export const editUser = data => async dispatch => {
 export const searchUser = input => async dispatch => {
     try {
         const res = await input
-        if(input.length === 0){
-            const data = JSON.parse(localStorage.getItem("users"))
             dispatch({
-                type: GET_USERS,
-                payload: data
+             type: INPUT_SEARCH,
+             payload: res
             })
-        } else {
-            dispatch({
-                type: INPUT_SEARCH,
-                payload: res
-            })
-        }
     }
     catch(e) {
         dispatch( {

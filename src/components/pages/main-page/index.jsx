@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useCallback, useEffect, useMemo, useState} from "react"
 import {Layout, Table, InputNumber, Input, Form, Popconfirm, Button} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {editUser, getUsers, searchUser} from "../../../store/users/actions";
@@ -70,10 +70,14 @@ const MainPage =()=> {
         setEditingKey('');
     },[])
 
-    const changeText = (e) => setInput(e.target.value);
+    const changeText = (e) => setInput(e.target.value.toLowerCase());
 
-    const find = useCallback(() =>{
-        dispatch(searchUser(input.trim()))
+    const find = useMemo(() =>{
+        if (input.length !== 0) {
+            dispatch(searchUser(input.trim()))
+        } else {
+            dispatch(getUsers())
+        }
     }, [dispatch, input])
 
     const save = async (key) => {

@@ -19,7 +19,7 @@ export function usersReducer(state = initialState, action){
         case INPUT_SEARCH:
             return {
                 ...state,
-                users: state.users.filter(c => c.name.toLowerCase().includes(action.payload))
+                users: state.users.filter(c => c.name.toLowerCase().indexOf(action.payload) !== -1)
             }
         default: return state
     }
